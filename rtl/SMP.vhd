@@ -147,7 +147,7 @@ begin
 			PAWR_N_OLD <= '1';
 		elsif rising_edge(CLK) then
 			PAWR_N_OLD <= PAWR_N;
-			if PAWR_N = '0' and PAWR_N_OLD = '1' and CS = '1' and CS_N = '0' and SYSCLKF_CE = '1' then
+			if PAWR_N = '0' and PAWR_N_OLD = '1' and CS = '1' and CS_N = '0' then
 				CPUI(to_integer(unsigned(PA))) <= CPU_DI;
 			end if;
 			
