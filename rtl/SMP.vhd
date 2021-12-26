@@ -149,6 +149,8 @@ begin
 			PAWR_N_OLD <= PAWR_N;
 			if PAWR_N = '0' and PAWR_N_OLD = '1' and CS = '1' and CS_N = '0' then
 				CPUI(to_integer(unsigned(PA))) <= CPU_DI;
+			elsif PAWR_N = '0' and CS = '1' and CS_N = '0' and SYSCLKF_CE = '1' then
+				CPUI(to_integer(unsigned(PA))) <= CPU_DI;
 			end if;
 			
 			if REG_SET = '1' then
