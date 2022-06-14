@@ -321,6 +321,7 @@ parameter CONF_STR = {
 	"P1-;",
 	"P1OG,Pseudo Transparency,Blend,Off;",
 	"P1-;",
+	"P1OU,MSU Audio Boost,Off,On;",
 	"P1OJK,Stereo Mix,None,25%,50%,100%;", 
 
 	"P2,Hardware;",
@@ -663,8 +664,10 @@ main main
 );
 
 // Mix msu_audio into main mix
-wire signed [16:0] AUDIO_MIX_L = $signed({MAIN_AUDIO_L[15], MAIN_AUDIO_L}) + $signed({msu_audio_l[15], msu_audio_l});
-wire signed [16:0] AUDIO_MIX_R = $signed({MAIN_AUDIO_R[15], MAIN_AUDIO_R}) + $signed({msu_audio_r[15], msu_audio_r});
+wire signed [16:0] AUDIO_MIX_L = status[30] ? $signed({MAIN_AUDIO_L[15], MAIN_AUDIO_L}) + ($signed({msu_audio_l[15], msu_audio_l})<<<1) :
+                                              $signed({MAIN_AUDIO_L[15], MAIN_AUDIO_L}) + $signed({msu_audio_l[15], msu_audio_l});
+wire signed [16:0] AUDIO_MIX_R = status[30] ? $signed({MAIN_AUDIO_R[15], MAIN_AUDIO_R}) + ($signed({msu_audio_r[15], msu_audio_r})<<<1) :
+                                              $signed({MAIN_AUDIO_R[15], MAIN_AUDIO_R}) + $signed({msu_audio_r[15], msu_audio_r});
 
 assign AUDIO_L = msu_enable ? AUDIO_MIX_L[16:1] : MAIN_AUDIO_L;
 assign AUDIO_R = msu_enable ? AUDIO_MIX_R[16:1] : MAIN_AUDIO_R;
